@@ -1,4 +1,4 @@
-# MySQL Workbench Export Laravel 5 Migrations Plugin
+# MySQL Workbench Export Laravel 10 Migrations Plugin
 
 A MySQL Workbench plugin that allows for exporting a model to Laravel 10 migrations that follow PSR-2 coding standards. When exported, each migration is generated and
 saved in it's own, properly named, migration file.
@@ -10,7 +10,7 @@ saved in it's own, properly named, migration file.
 
 This plugin requires MySQL Workbench to work properly.
 
-And of course this plugin is open source with a [public repository](https://github.com/beckenrode/mysql-workbench-export-laravel-5-migrations)
+And of course this plugin is open source with a [public repository](https://github.com/rami1973/mysql-workbench-export-laravel-10-migrations)
  on GitHub.
 
 ### Installation
@@ -22,14 +22,14 @@ And of course this plugin is open source with a [public repository](https://gith
 ### Usage
 
  - Open a model in MySQL Workbench
- - Tools > Catalog > Export Laravel 5 Migration
+ - Tools > Catalog > Export Laravel 10 Migration
 
 ### Development
 
 Want to contribute? Great!
 
 ### Thanks
-
+the orginal plugin from:
 Thanks to [all](https://github.com/beckenrode/mysql-workbench-export-laravel-5-migrations/graphs/contributors) that have and continue to contribute to this project.
 
 Extra thanks to [VeeeneX](https://github.com/VeeeneX) for all the great PRs!
