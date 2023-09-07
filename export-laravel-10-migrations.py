@@ -123,7 +123,8 @@ return new class extends Migration
 '''
 
 foreignKeyTemplate = '''
-            $table->foreign('{foreignKey}', '{foreignKeyName}')
+            //$table->foreign('{foreignKey}', '{foreignKeyName}')
+            $table->foreign('{foreignKey}')
                 ->references('{tableKeyName}')->on('{foreignTableName}')
                 ->onDelete('{onDeleteAction}')
                 ->onUpdate('{onUpdateAction}');
@@ -144,7 +145,8 @@ schemaCreateTemplate = '''
 '''
 
 indexKeyTemplate = '''
-            $table->{indexType}([{indexColumns}], '{indexName}');
+           // $table->{indexType}([{indexColumns}], '{indexName}');
+           $table->{indexType}([{indexColumns}]);
 '''
 
 migrationEndingTemplate = '''        Schema::dropIfExists($this->tableName);
@@ -622,7 +624,7 @@ class Generatelaravel10MigrationWizard(WizardForm):
     def __init__(self, sql_text):
         WizardForm.__init__(self, None)
 
-        self.set_name('generate_laravel_5_migration_wizard')
+        self.set_name('generate_laravel_10_migration_wizard')
         self.set_title('Generate Laravel 10 Migration Wizard')
 
         self.preview_page = Generatelaravel10MigrationWizardPreviewPage(self, sql_text)
