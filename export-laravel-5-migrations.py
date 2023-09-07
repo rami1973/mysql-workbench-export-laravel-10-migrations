@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # MySQL Workbench module
-# A MySQL Workbench plugin which exports a Model to Laravel 5 Migrations
+# A MySQL Workbench plugin which exports a Model to Laravel 10 Migrations
 # Written in MySQL Workbench 6.3.6
 # Support for MySQL Workbench 8.0 added
 
@@ -96,13 +96,14 @@ migrations = {}
 migration_tables = []
 migrationTemplate = '''<?php
 
-namespace Database\Migrations;
+//namespace Database\Migrations;
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Create{tableNameCamelCase}Table extends Migration
+//class Create{tableNameCamelCase}Table extends Migration
+return new class extends Migration
 {{
     /**
      * Schema table name to migrate
@@ -148,25 +149,25 @@ indexKeyTemplate = '''
 
 migrationEndingTemplate = '''        Schema::dropIfExists($this->tableName);
     }}
-}}
+}};
 '''
 
 ModuleInfo = DefineModule(
-    name='GenerateLaravel5Migration',
+    name='Generatelaravel10Migration',
     author='Brandon Eckenrode',
     version='0.2'
 )
 
 
 @ModuleInfo.plugin(
-    'wb.util.generate_laravel5_migration',
-    caption='Export Laravel 5 Migration',
+    'wb.util.generate_laravel10_migration',
+    caption='Export Laravel 10 Migration',
     input=[wbinputs.currentCatalog()],
     groups=['Catalog/Utilities', 'Menu/Catalog'],
     pluginMenu='Catalog'
 )
 @ModuleInfo.export(grt.INT, grt.classes.db_Catalog)
-def generate_laravel5_migration(catalog):
+def generate_laravel10_migration(catalog):
     def create_tree(table_schema):
         tree = {}
         for tbl in sorted(table_schema.tables, key=lambda table: table.name):
@@ -509,7 +510,7 @@ def generate_laravel5_migration(catalog):
             table_tree = create_tree(schema[0])
             migrations = export_schema(schema[0], table_tree)
 
-    except GenerateLaravel5MigrationError as e:
+    except Generatelaravel10MigrationError as e:
         grt.modules.Workbench.confirm(e.typ, e.message)
         return 1
 
@@ -529,13 +530,13 @@ def generate_laravel5_migration(catalog):
     sql_text = out.getvalue()
     out.close()
 
-    wizard = GenerateLaravel5MigrationWizard(sql_text)
+    wizard = Generatelaravel10MigrationWizard(sql_text)
     wizard.run()
 
     return 0
 
 
-class GenerateLaravel5MigrationError(Exception):
+class Generatelaravel10MigrationError(Exception):
     def __init__(self, typ, message):
         self.typ = typ
         self.message = message
@@ -544,7 +545,7 @@ class GenerateLaravel5MigrationError(Exception):
         return repr(self.typ) + ': ' + repr(self.message)
 
 
-class GenerateLaravel5MigrationWizardPreviewPage(WizardPage):
+class Generatelaravel10MigrationWizardPreviewPage(WizardPage):
     def __init__(self, owner, sql_text):
         WizardPage.__init__(self, owner, 'Review Generated Migration(s)')
 
@@ -617,19 +618,19 @@ class GenerateLaravel5MigrationWizardPreviewPage(WizardPage):
                     )
 
 
-class GenerateLaravel5MigrationWizard(WizardForm):
+class Generatelaravel10MigrationWizard(WizardForm):
     def __init__(self, sql_text):
         WizardForm.__init__(self, None)
 
         self.set_name('generate_laravel_5_migration_wizard')
-        self.set_title('Generate Laravel 5 Migration Wizard')
+        self.set_title('Generate Laravel 10 Migration Wizard')
 
-        self.preview_page = GenerateLaravel5MigrationWizardPreviewPage(self, sql_text)
+        self.preview_page = Generatelaravel10MigrationWizardPreviewPage(self, sql_text)
         self.add_page(self.preview_page)
 
 
 try:
     # For scripting shell
-    generate_laravel5_migration(grt.root.wb.doc.physicalModels[0].catalog)
+    generate_laravel10_migration(grt.root.wb.doc.physicalModels[0].catalog)
 except Exception:
     pass
